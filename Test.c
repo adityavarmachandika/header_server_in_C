@@ -11,7 +11,7 @@ void launch(struct Server *server){
             "Content-Length: 49\r\n"
             "Connection: close\r\n"
             "\r\n"
-            "<html><body><h1>hello</h1></body></html>";
+            "<html><body><h1>namaste</h1></body></html>";
     int address_len=sizeof(server->address);
     int new_soc;
     while(1){
@@ -22,7 +22,7 @@ void launch(struct Server *server){
             exit(1);
         }
         printf("%s",buffer);
-        if(send(new_soc,msg,5,0)==SOCKET_ERROR){
+        if(send(new_soc,msg,strlen(msg),0)==SOCKET_ERROR){
             printf("failed to send the data");
             closesocket(new_soc);
             exit(1);
