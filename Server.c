@@ -2,7 +2,7 @@
 #include "Server.h"
 #include<winsock2.h>
 
-struct Server server_constructor(int domain,int service,int protocol,int port,int backlog,u_long interfacee,void (*launch)(void)){
+struct Server server_constructor(int domain,int service,int protocol,int port,int backlog,u_long interfacee,void (*launch)(struct Server *server)){
      WSADATA wsaData;
     SOCKET server_socket, client_socket;
     struct sockaddr_in server_addr, client_addr;
@@ -12,7 +12,7 @@ struct Server server_constructor(int domain,int service,int protocol,int port,in
         printf("WSAStartup failed. Error Code: %d\n", WSAGetLastError());
         exit(EXIT_FAILURE);
     }
-
+ 
     struct Server server;
     server.domain=domain;
     server.service=service;
@@ -36,8 +36,11 @@ struct Server server_constructor(int domain,int service,int protocol,int port,in
     }
     printf("Socket ID is: %d", server.socket_fd);
 
+    if(listen(server.socket_fd,server.backlog)){
+        printf("socket failed to listen");
+        exit(1);
+    }
     server.launch=launch;
     return server;
-
 }
 

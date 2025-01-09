@@ -12,7 +12,7 @@ struct Server{
     SOCKET socket_fd;
     struct sockaddr_in address;
 
-    void (*launch)(void);
+    void (*launch)(struct Server *server);
 };
 
-struct Server server_constructor(int domain,int service,int protocol,int port,int backlog,u_long interfacee,void (*launch)(void));
+struct Server server_constructor(int domain,int service,int protocol,int port,int backlog,u_long interfacee,void (*launch)(struct Server *server));
